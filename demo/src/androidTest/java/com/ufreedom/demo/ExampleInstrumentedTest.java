@@ -1,4 +1,4 @@
-package com.ufreedom.smartdialog;
+package com.ufreedom.demo;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

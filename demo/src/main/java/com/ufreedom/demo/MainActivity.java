@@ -1,4 +1,4 @@
-package com.ufreedom.smartdialog;
+package com.ufreedom.demo;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
