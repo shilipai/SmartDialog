@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="DialogTheme" parent="@android:style/Theme.NoTitleBar.Fullscreen"/>
+
+    <style name="BaseDialogAnimation">
+        <item name="android:windowEnterAnimation">@null</item>
+        <item name="android:windowExitAnimation">@null</item>
+    </style>
+    
+</resources>
