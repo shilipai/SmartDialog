@@ -1,1 +1,1 @@
-include ':demo', ':SmartDialogLib'
+include ':demo', ':core', ':expand'
