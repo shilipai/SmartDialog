@@ -1,12 +1,12 @@
-package com.ufreedom.smartdialog.transition;
+package com.ufreedom.smartdialog.effect;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.view.animation.AlphaAnimation;
 
-import com.facebook.rebound.SimpleSpringListener;
 import com.ufreedom.smartdialog.spring.SimpleReboundListener;
 import com.ufreedom.smartdialog.spring.SpringHelper;
+import com.ufreedom.smartdialog.transition.DialogTransition;
+import com.ufreedom.smartdialog.transition.TransitionHelper;
 
 /**
  * Author UFreedom
@@ -14,11 +14,10 @@ import com.ufreedom.smartdialog.spring.SpringHelper;
  */
 
 public class ScaleTransition implements DialogTransition {
-    
-    @Override
-    public void applyDialogTransition(int dialogWidth, int dialogHeight, final TransitionHelper transitionHelper) {
 
-        ValueAnimator alphaAnimation = ObjectAnimator.ofFloat(0.0f,1.0f);
+    @Override
+    public void applyEnterTransition(int dialogWidth, int dialogHeight, final TransitionHelper transitionHelper) {
+        ValueAnimator alphaAnimation = ObjectAnimator.ofFloat(0.0f, 1.0f);
         alphaAnimation.setDuration(100);
         alphaAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -27,9 +26,9 @@ public class ScaleTransition implements DialogTransition {
             }
         });
 
-        SpringHelper.create(0f,1f)
+        SpringHelper.create(0f, 1f)
                 .configBouncinessAndSpeed(12, 16)
-                .reboundListener(new SimpleReboundListener(){
+                .reboundListener(new SimpleReboundListener() {
                     @Override
                     public void onReboundUpdate(double currentValue) {
                         transitionHelper.setScaleX((float) currentValue);
@@ -37,6 +36,9 @@ public class ScaleTransition implements DialogTransition {
                     }
                 }).start(transitionHelper);
     }
-    
-    
+
+    @Override
+    public void applyExitTransition(int dialogWidth, int dialogHeight, TransitionHelper transitionHelper) {
+
+    }
 }

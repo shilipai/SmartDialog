@@ -7,6 +7,8 @@ package com.ufreedom.smartdialog.transition;
 
 public interface DialogTransition {
     
-    public void applyDialogTransition(int dialogWidth,int dialogHeight,TransitionHelper transitionHelper);
+    public void applyEnterTransition(int dialogWidth, int dialogHeight, TransitionHelper transitionHelper);
+
+    public void applyExitTransition(int dialogWidth, int dialogHeight, TransitionHelper transitionHelper);
 
 }

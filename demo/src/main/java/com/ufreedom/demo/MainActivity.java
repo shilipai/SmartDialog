@@ -4,8 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.ufreedom.smartdialog.MaterialSmartDialog;
-import com.ufreedom.smartdialog.transition.ScaleTransition;
+import com.ufreedom.smartdialog.effect.ScaleTransition;
 
 public class MainActivity extends AppCompatActivity {
 

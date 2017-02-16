@@ -72,10 +72,8 @@ public abstract  class BaseDialog extends DialogFragment {
             @Override
             public void onGlobalLayout() {
                 dialogView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                
-             //   onShowDialogAnimation(dialogView.getMeasuredWidth(),dialogView.getMeasuredHeight(), mDialogHelper);
                 if (mDialogTransition != null){
-                    mDialogTransition.applyDialogTransition(dialogView.getMeasuredWidth(),dialogView.getMeasuredHeight(), mTransitionHelper);
+                    mDialogTransition.applyEnterTransition(dialogView.getMeasuredWidth(),dialogView.getMeasuredHeight(), mTransitionHelper);
                 }
             }
         });
@@ -102,7 +100,7 @@ public abstract  class BaseDialog extends DialogFragment {
 
         if (mDialog.getWindow() != null){
             mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
-            mDialog.getWindow().setWindowAnimations(R.style.BaseDialogAnimation); 
+            mDialog.getWindow().setWindowAnimations(R.style.BaseDialogAnimation);
         }
         
         return mDialog;

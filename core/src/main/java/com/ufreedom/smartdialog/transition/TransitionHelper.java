@@ -7,81 +7,158 @@ import com.facebook.rebound.SpringConfig;
 import com.facebook.rebound.SpringSystem;
 import com.facebook.rebound.SpringUtil;
 
-public class TransitionHelper implements ITransition,Rebound{
+import java.lang.ref.WeakReference;
+
+public class TransitionHelper implements ITransition, Rebound {
 
     private SpringSystem mSpringSystem;
-    private View mContentView;
-    private View mRootView;
+    private WeakReference<View> mContentViewWeakReference;
+    private WeakReference<View> mRootViewWeakReference;
 
 
-    public TransitionHelper(SpringSystem mSpringSystem, View dialogContentView,View rootView) {
-        this.mSpringSystem = mSpringSystem;
-        this.mContentView = dialogContentView;
-        this.mRootView = rootView;
+    public TransitionHelper(SpringSystem springSystem, View dialogContentView, View rootView) {
+        mSpringSystem = springSystem;
+        mContentViewWeakReference = new WeakReference<View>(dialogContentView);
+        mRootViewWeakReference = new WeakReference<View>(rootView);
     }
-    
-    public void setBackgroundAlpha(float alpha){
-        mRootView.setAlpha(alpha);
+
+    public View getDialogView() {
+        return mContentViewWeakReference.get();
+    }
+
+    private View getRootView() {
+        return mRootViewWeakReference.get();
+    }
+
+    public void setBackgroundAlpha(float alpha) {
+        View rootView;
+        if ((rootView = getRootView()) != null) {
+            rootView.setAlpha(alpha);
+        }
     }
 
     @Override
     public void setAlpha(float alpha) {
-        mContentView.setAlpha(alpha);
+        View dialogView;
+        if ((dialogView = getDialogView()) != null) {
+            dialogView.setAlpha(alpha);
+        }
     }
 
     @Override
     public void setRotation(float rotation) {
-        mContentView.setRotation(rotation);
+        View dialogView;
+        if ((dialogView = getDialogView()) != null) {
+            dialogView.setRotation(rotation);
+        }
     }
 
     @Override
     public void setRotationX(float rotationX) {
-        mContentView.setRotationX(rotationX);
+        View dialogView;
+        if ((dialogView = getDialogView()) != null) {
+            dialogView.setRotationX(rotationX);
+        }
     }
 
     @Override
     public void setRotationY(float rotationY) {
-        mContentView.setRotationY(rotationY);
+        View dialogView;
+        if ((dialogView = getDialogView()) != null) {
+            dialogView.setRotationY(rotationY);
+        }
     }
 
     @Override
     public void setScaleX(float scaleX) {
-        mContentView.setScaleX(scaleX);
+        View dialogView;
+        if ((dialogView = getDialogView()) != null) {
+            dialogView.setScaleX(scaleX);
+        }
     }
 
     @Override
     public void setScaleY(float scaleY) {
-        mContentView.setScaleY(scaleY);
+        View dialogView;
+        if ((dialogView = getDialogView()) != null) {
+            dialogView.setScaleY(scaleY);
+        }
     }
 
     @Override
     public void setScrollX(int scrollX) {
-        mContentView.setScrollX(scrollX);
+        View dialogView;
+        if ((dialogView = getDialogView()) != null) {
+            dialogView.setScrollX(scrollX);
+        }
     }
 
     @Override
     public void setScrollY(int scrollY) {
-        mContentView.setScrollY(scrollY);
+        View dialogView;
+        if ((dialogView = getDialogView()) != null) {
+            dialogView.setScrollY(scrollY);
+        }
     }
 
     @Override
     public void setTranslationX(float translationX) {
-        mContentView.setTranslationX(translationX);
+        View dialogView;
+        if ((dialogView = getDialogView()) != null) {
+            dialogView.setTranslationX(translationX);
+        }
     }
 
     @Override
     public void setTranslationY(float translationY) {
-        mContentView.setTranslationY(translationY);
+        View dialogView;
+        if ((dialogView = getDialogView()) != null) {
+            dialogView.setTranslationY(translationY);
+        }
     }
 
     @Override
     public void setX(float x) {
-        mContentView.setX(x);
+        View dialogView;
+        if ((dialogView = getDialogView()) != null) {
+            dialogView.setX(x);
+        }
     }
 
     @Override
     public void setY(float y) {
-        mContentView.setY(y);
+        View dialogView;
+        if ((dialogView = getDialogView()) != null) {
+            dialogView.setY(y);
+        }
+    }
+
+    @Override
+    public void setDialogHeight(int height) {
+        View dialogView;
+        if ((dialogView = getDialogView()) != null && dialogView.getLayoutParams() != null) {
+            dialogView.getLayoutParams().height = height;
+            dialogView.requestLayout();
+        }
+    }
+
+    @Override
+    public void setDialogWidth(int width) {
+        View dialogView;
+        if ((dialogView = getDialogView()) != null && dialogView.getLayoutParams() != null) {
+            dialogView.getLayoutParams().width = width;
+            dialogView.requestLayout();
+        }
+    }
+
+    @Override
+    public void setDialogWidthAndHeight(int width, int height) {
+        View dialogView;
+        if ((dialogView = getDialogView()) != null && dialogView.getLayoutParams() != null) {
+            dialogView.getLayoutParams().width = width;
+            dialogView.getLayoutParams().height = height;
+            dialogView.requestLayout();
+        }
     }
 
     @Override
