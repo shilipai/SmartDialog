@@ -2,13 +2,11 @@ package com.ufreedom.smartdialog.transition;
 
 /**
  * Author SunMeng
- * Date : 2017 二月 09
+ * Date : 2017 二月 17
  */
 
-public interface DialogTransition {
+public interface DialogExitTransition {
     
-    public void applyEnterTransition(int dialogWidth, int dialogHeight, TransitionHelper transitionHelper);
-
     public void applyExitTransition(int dialogWidth, int dialogHeight, TransitionHelper transitionHelper);
 
 }

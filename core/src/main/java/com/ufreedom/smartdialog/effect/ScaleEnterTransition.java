@@ -5,7 +5,7 @@ import android.animation.ValueAnimator;
 
 import com.ufreedom.smartdialog.spring.SimpleReboundListener;
 import com.ufreedom.smartdialog.spring.SpringHelper;
-import com.ufreedom.smartdialog.transition.DialogTransition;
+import com.ufreedom.smartdialog.transition.DialogEnterTransition;
 import com.ufreedom.smartdialog.transition.TransitionHelper;
 
 /**
@@ -13,7 +13,7 @@ import com.ufreedom.smartdialog.transition.TransitionHelper;
  * Date : 2017 二月 09
  */
 
-public class ScaleTransition implements DialogTransition {
+public class ScaleEnterTransition implements DialogEnterTransition {
 
     @Override
     public void applyEnterTransition(int dialogWidth, int dialogHeight, final TransitionHelper transitionHelper) {
@@ -37,8 +37,4 @@ public class ScaleTransition implements DialogTransition {
                 }).start(transitionHelper);
     }
 
-    @Override
-    public void applyExitTransition(int dialogWidth, int dialogHeight, TransitionHelper transitionHelper) {
-
-    }
 }

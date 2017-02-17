@@ -18,7 +18,7 @@ import android.view.ViewTreeObserver;
 
 import com.facebook.rebound.SpringSystem;
 import com.ufreedom.smartdialog.transition.TransitionHelper;
-import com.ufreedom.smartdialog.transition.DialogTransition;
+import com.ufreedom.smartdialog.transition.DialogEnterTransition;
 
 /**
  * Author UFreedom
@@ -31,7 +31,7 @@ public abstract  class BaseDialog extends DialogFragment {
     private boolean mCanceledOnTouchOutside = true;
     private Dialog mDialog;
     private TransitionHelper mTransitionHelper;
-    private DialogTransition mDialogTransition;
+    private DialogEnterTransition mDialogEnterTransition;
     
     
     public void showDialog(Activity activity) {
@@ -72,8 +72,8 @@ public abstract  class BaseDialog extends DialogFragment {
             @Override
             public void onGlobalLayout() {
                 dialogView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                if (mDialogTransition != null){
-                    mDialogTransition.applyEnterTransition(dialogView.getMeasuredWidth(),dialogView.getMeasuredHeight(), mTransitionHelper);
+                if (mDialogEnterTransition != null){
+                    mDialogEnterTransition.applyEnterTransition(dialogView.getMeasuredWidth(),dialogView.getMeasuredHeight(), mTransitionHelper);
                 }
             }
         });
@@ -122,13 +122,12 @@ public abstract  class BaseDialog extends DialogFragment {
     }
 
 
-    public void setDialogTransition(DialogTransition mDialogTransition) {
-        this.mDialogTransition = mDialogTransition;
+    public void setDialogEnterTransition(DialogEnterTransition mDialogEnterTransition) {
+        this.mDialogEnterTransition = mDialogEnterTransition;
     }
 
     protected abstract void onInitView(View dialog);
     
-  //  protected  abstract void onShowDialogAnimation(int dialogWidth,int dialogHeight,DialogHelper dialogHelper);
 
     protected abstract int getDialogContentLayoutResId();
 
