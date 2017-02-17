@@ -13,7 +13,7 @@ import com.ufreedom.smartdialog.transition.TransitionHelper;
  * Date : 2017 二月 16
  */
 
-public class BottomSheetEnterTransition implements DialogEnterTransition {
+public class HeightRiseEnterTransition implements DialogEnterTransition {
     
     
     @Override
