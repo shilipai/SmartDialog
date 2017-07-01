@@ -103,7 +103,8 @@ public class SpringHelper {
             if (mSpringListener != null){
                 spring.addListener(mSpringListener);
             }
-            
+
+            spring.setCurrentValue(mStartValue);
             spring.addListener(new SimpleSpringListener(){
                 @Override
                 public void onSpringUpdate(Spring spring) {
@@ -138,7 +139,7 @@ public class SpringHelper {
     }
 
     public float transition(double progress, float startValue, float endValue) {
-        return (float) SpringUtil.mapValueFromRangeToRange(progress, 0, 1, startValue, endValue);
+        return (float) SpringUtil.mapValueFromRangeToRange(progress, startValue < endValue ? 0 : 1 , startValue < endValue ? 1 : 0, startValue, endValue);
     }
   
 }
