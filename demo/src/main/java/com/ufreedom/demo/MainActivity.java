@@ -13,8 +13,6 @@ public class MainActivity extends AppCompatActivity {
     }
     
     public void showDialog(View view){
-        /*MaterialSmartDialog materialSmartDialog = new MaterialSmartDialog();
-        materialSmartDialog.setDialogTransition(new ScaleEnterTransition());
-        materialSmartDialog.showDialog(this);*/
+
     }
 }
