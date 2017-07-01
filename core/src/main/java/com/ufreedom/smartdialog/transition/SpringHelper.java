@@ -15,7 +15,7 @@
  */
 
 
-package com.ufreedom.smartdialog.spring;
+package com.ufreedom.smartdialog.transition;
 
 import com.facebook.rebound.SimpleSpringListener;
 import com.facebook.rebound.Spring;
@@ -23,7 +23,6 @@ import com.facebook.rebound.SpringConfig;
 import com.facebook.rebound.SpringListener;
 import com.facebook.rebound.SpringSystem;
 import com.facebook.rebound.SpringUtil;
-import com.ufreedom.smartdialog.transition.Rebound;
 
 /**
  * 

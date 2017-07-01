@@ -2,4 +2,5 @@
 <resources>
     <color name="card_background">#ffffff</color>
     <color name="card_shadow">#10000000</color>
+    <color name="default_background">#CC000000</color>
 </resources>

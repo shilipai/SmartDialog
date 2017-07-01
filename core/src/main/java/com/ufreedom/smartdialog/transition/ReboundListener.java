@@ -15,22 +15,17 @@
  */
 
 
-package com.ufreedom.smartdialog.spring;
+package com.ufreedom.smartdialog.transition;
 
 /**
  * Author UFreedom
  * Date : 2016 十月 20
  */
 
-public class SimpleReboundListener implements ReboundListener{
+public interface ReboundListener {
     
-    @Override
-    public void onReboundUpdate(double currentValue) {
-        
-    }
+    public void onReboundUpdate(double currentValue);
 
-    @Override
-    public void onReboundEnd() {
-
-    }
+    public void onReboundEnd();
+    
 }

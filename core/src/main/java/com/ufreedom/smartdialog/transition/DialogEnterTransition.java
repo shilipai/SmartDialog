@@ -1,5 +1,7 @@
 package com.ufreedom.smartdialog.transition;
 
+import com.ufreedom.smartdialog.DialogDismiss;
+
 /**
  * Author SunMeng
  * Date : 2017 二月 09

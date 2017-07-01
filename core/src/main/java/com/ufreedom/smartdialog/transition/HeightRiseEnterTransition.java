@@ -1,21 +1,20 @@
-package com.ufreedom.smartdialog.effect;
+package com.ufreedom.smartdialog.transition;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 
-import com.ufreedom.smartdialog.spring.SimpleReboundListener;
-import com.ufreedom.smartdialog.spring.SpringHelper;
+import com.ufreedom.smartdialog.transition.SimpleReboundListener;
+import com.ufreedom.smartdialog.transition.SpringHelper;
 import com.ufreedom.smartdialog.transition.DialogEnterTransition;
 import com.ufreedom.smartdialog.transition.TransitionHelper;
 
 /**
- * Author SunMeng
+ * Author UFreedom
  * Date : 2017 二月 16
  */
 
 public class HeightRiseEnterTransition implements DialogEnterTransition {
-    
-    
+
     @Override
     public void applyEnterTransition(int dialogWidth, int dialogHeight, final TransitionHelper transitionHelper) {
         ValueAnimator valueAnimator = ObjectAnimator.ofFloat(0.0f, 1.0f);
@@ -38,5 +37,4 @@ public class HeightRiseEnterTransition implements DialogEnterTransition {
                 .start(transitionHelper);
 
     }
-
 }

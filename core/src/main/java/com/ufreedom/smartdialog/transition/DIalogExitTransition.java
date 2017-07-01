@@ -1,12 +1,13 @@
 package com.ufreedom.smartdialog.transition;
 
+import com.ufreedom.smartdialog.DialogDismiss;
+
 /**
- * Author SunMeng
- * Date : 2017 二月 17
+ * Created by UFreedom on 2017/7/1.
  */
 
 public interface DialogExitTransition {
-    
-    public void applyExitTransition(int dialogWidth, int dialogHeight, TransitionHelper transitionHelper);
+
+    public void applyEnterTransition(int dialogWidth, int dialogHeight, TransitionHelper transitionHelper, DialogDismiss dialogDismiss);
 
 }

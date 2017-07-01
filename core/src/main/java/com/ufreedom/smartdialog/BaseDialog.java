@@ -6,7 +6,7 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.graphics.Color;
+import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,23 +17,29 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
 import com.facebook.rebound.SpringSystem;
+import com.ufreedom.smartdialog.transition.DialogExitTransition;
 import com.ufreedom.smartdialog.transition.TransitionHelper;
 import com.ufreedom.smartdialog.transition.DialogEnterTransition;
+
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Author UFreedom
  * Date : 2016 十一月 04
  */
 
-public abstract  class BaseDialog extends DialogFragment {
+public abstract  class BaseDialog extends DialogFragment implements IDialog{
 
     protected View dialogView;
     private boolean mCanceledOnTouchOutside = true;
     private Dialog mDialog;
     private TransitionHelper mTransitionHelper;
     private DialogEnterTransition mDialogEnterTransition;
-    
-    
+    private DialogExitTransition mDialogExitTransition;
+    private Unbinder mUnbinder;
+
+
     public void showDialog(Activity activity) {
         FragmentManager fragmentManager = activity.getFragmentManager();
         String tag = getClass().getSimpleName();
@@ -52,6 +58,7 @@ public abstract  class BaseDialog extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(R.style.DialogTheme, android.support.v4.app.DialogFragment.STYLE_NO_TITLE);
+        onInitialize(savedInstanceState);
     }
 
     @Nullable
@@ -59,15 +66,23 @@ public abstract  class BaseDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.dialog_container_layout, container, false);
-        view.setBackgroundColor(getBackgroundColor());
+        view.setBackgroundResource(R.color.default_background);
         View rootView = view.findViewById(R.id.rootView);
-        dialogView = LayoutInflater.from(getActivity()).inflate(getDialogContentLayoutResId(), (ViewGroup) view, false);
+        dialogView = LayoutInflater.from(getActivity()).inflate(getDialogContentLayoutResourceId(), (ViewGroup) view, false);
         ((ViewGroup) view).addView(dialogView);
 
+        DialogConfig mDialogConfig = new DialogConfig(view);
+        onInitDialog(mDialogConfig);
+
         mTransitionHelper = new TransitionHelper(SpringSystem.create(),dialogView,view);
-        
-        onInitView(dialogView);
-        
+        mUnbinder = ButterKnife.bind(dialogView);
+        onBindUi();
+
+        if (mCanceledOnTouchOutside){
+            rootView.setOnTouchListener(new RootViewTouchListener());
+            dialogView.setOnTouchListener(new DialogTouchListener());
+        }
+
         dialogView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -78,10 +93,7 @@ public abstract  class BaseDialog extends DialogFragment {
             }
         });
 
-        if (mCanceledOnTouchOutside){
-            rootView.setOnTouchListener(new RootViewTouchListener());
-            dialogView.setOnTouchListener(new DialogTouchListener());
-        }
+
         
         return view;
 
@@ -105,7 +117,32 @@ public abstract  class BaseDialog extends DialogFragment {
         
         return mDialog;
     }
-    
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mUnbinder != null) {
+            mUnbinder.unbind();
+        }
+    }
+
+
+    @Override
+    public void dismiss() {
+
+        if (mDialogExitTransition != null) {
+            mDialogExitTransition.applyEnterTransition(dialogView.getWidth(), dialogView.getHeight(), mTransitionHelper,new DialogDismiss(this));
+        }else {
+            super.dismiss();
+        }
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+
+    }
+
     /**
      *
      *
@@ -121,39 +158,26 @@ public abstract  class BaseDialog extends DialogFragment {
         mDialog.setCanceledOnTouchOutside(cancel);
     }
 
+    public void setDialogExitTransition(DialogExitTransition dialogExitTransition) {
+        this.mDialogExitTransition = dialogExitTransition;
+    }
 
     public void setDialogEnterTransition(DialogEnterTransition mDialogEnterTransition) {
         this.mDialogEnterTransition = mDialogEnterTransition;
     }
 
-    protected abstract void onInitView(View dialog);
-    
 
-    protected abstract int getDialogContentLayoutResId();
-
-    
-    protected int getBackgroundColor() {
-        return  Color.parseColor("#CC000000");
-    }
-
-
-    protected View findViewById(int id) {
+    protected <V> V findViewById(int id) {
         if (dialogView == null) return null;
-
-        return dialogView.findViewById(id);
+        return (V) dialogView.findViewById(id);
     }
 
-    /**
-     * 是否拦截onBackPressed事件
-     * @return
-     */
     protected boolean onInterceptBackPressedEvent(){
         return false;
     }
 
-    
 
-    class RootViewTouchListener implements View.OnTouchListener{
+    private class RootViewTouchListener implements View.OnTouchListener{
         
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -167,7 +191,7 @@ public abstract  class BaseDialog extends DialogFragment {
     }
 
 
-    class DialogTouchListener implements View.OnTouchListener{
+    private class DialogTouchListener implements View.OnTouchListener{
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {

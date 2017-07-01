@@ -4,8 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.ufreedom.smartdialog.effect.ScaleEnterTransition;
-
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -15,8 +13,8 @@ public class MainActivity extends AppCompatActivity {
     }
     
     public void showDialog(View view){
-        MaterialSmartDialog materialSmartDialog = new MaterialSmartDialog();
+        /*MaterialSmartDialog materialSmartDialog = new MaterialSmartDialog();
         materialSmartDialog.setDialogTransition(new ScaleEnterTransition());
-        materialSmartDialog.showDialog(this);
+        materialSmartDialog.showDialog(this);*/
     }
 }
