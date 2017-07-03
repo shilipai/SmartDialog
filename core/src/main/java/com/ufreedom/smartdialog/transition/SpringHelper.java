@@ -104,7 +104,7 @@ public class SpringHelper {
                 spring.addListener(mSpringListener);
             }
 
-            spring.setCurrentValue(mStartValue);
+            spring.setCurrentValue(mStartValue > mEndValue ? 1 : 0);
             spring.addListener(new SimpleSpringListener(){
                 @Override
                 public void onSpringUpdate(Spring spring) {
@@ -117,7 +117,7 @@ public class SpringHelper {
                         mReboundListener.onReboundUpdate(transition(spring.getCurrentValue(), mStartValue, mEndValue));
                     }
                 }
-            }).setEndValue(mEndValue);
+            }).setEndValue(mStartValue > mEndValue ? 0 : 1);
         }else {
             throw new NullPointerException("Spring should not be null");
         }
