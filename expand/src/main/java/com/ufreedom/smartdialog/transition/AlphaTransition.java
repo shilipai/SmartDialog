@@ -29,7 +29,7 @@ public class AlphaTransition implements DialogTransition{
     @Override
     public void applyExitTransition(int dialogWidth, int dialogHeight, final TransitionHelper transitionHelper, final DialogDismiss dialogDismiss) {
         ValueAnimator alphaAnimation = ObjectAnimator.ofFloat(1.0f, 0.0f);
-        alphaAnimation.setDuration(mEnterDuration);
+        alphaAnimation.setDuration(mExitDuration);
         alphaAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
