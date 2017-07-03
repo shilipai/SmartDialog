@@ -8,6 +8,6 @@ import com.ufreedom.smartdialog.DialogDismiss;
 
 public interface DialogExitTransition {
 
-    public void applyEnterTransition(int dialogWidth, int dialogHeight, TransitionHelper transitionHelper, DialogDismiss dialogDismiss);
+    public void applyExitTransition(int dialogWidth, int dialogHeight, TransitionHelper transitionHelper, DialogDismiss dialogDismiss);
 
 }

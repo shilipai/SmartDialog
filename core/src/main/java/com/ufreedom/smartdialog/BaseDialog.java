@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,6 +22,9 @@ import com.ufreedom.smartdialog.transition.DialogExitTransition;
 import com.ufreedom.smartdialog.transition.TransitionHelper;
 import com.ufreedom.smartdialog.transition.DialogEnterTransition;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -29,14 +33,13 @@ import butterknife.Unbinder;
  * Date : 2016 十一月 04
  */
 
-public abstract  class BaseDialog extends DialogFragment implements IDialog{
+public abstract class BaseDialog extends DialogFragment implements IDialog {
 
     protected View dialogView;
-    private boolean mCanceledOnTouchOutside = true;
     private Dialog mDialog;
     private TransitionHelper mTransitionHelper;
-    private DialogEnterTransition mDialogEnterTransition;
-    private DialogExitTransition mDialogExitTransition;
+    private List<DialogEnterTransition> mDialogEnterTransitions = new ArrayList<>(6);
+    private List<DialogExitTransition> mDialogExitTransitions = new ArrayList<>(6);
     private Unbinder mUnbinder;
 
 
@@ -67,41 +70,60 @@ public abstract  class BaseDialog extends DialogFragment implements IDialog{
 
         View view = inflater.inflate(R.layout.dialog_container_layout, container, false);
         view.setBackgroundResource(R.color.default_background);
-        View rootView = view.findViewById(R.id.rootView);
+     //   View rootView = view.findViewById(R.id.rootView);
         dialogView = LayoutInflater.from(getActivity()).inflate(getDialogContentLayoutResourceId(), (ViewGroup) view, false);
         ((ViewGroup) view).addView(dialogView);
 
-        DialogConfig mDialogConfig = new DialogConfig(view);
+        DialogConfig mDialogConfig = new DialogConfig(view,dialogView,mDialog);
         onInitDialog(mDialogConfig);
 
-        mTransitionHelper = new TransitionHelper(SpringSystem.create(),dialogView,view);
+        mTransitionHelper = new TransitionHelper(SpringSystem.create(), dialogView, view);
         mUnbinder = ButterKnife.bind(dialogView);
         onBindUi();
 
-        if (mCanceledOnTouchOutside){
-            rootView.setOnTouchListener(new RootViewTouchListener());
-            dialogView.setOnTouchListener(new DialogTouchListener());
+        if (mDialogConfig.isCanceledOnTouchOutside()) {
+            if (getTouchToDismissView() != null) {
+                getTouchToDismissView().setOnTouchListener(new RootViewTouchListener());
+            }else {
+                view.setOnTouchListener(new RootViewTouchListener());
+            }
+
+            if (getInterceptTouchToDismissView() != null) {
+                getInterceptTouchToDismissView().setOnTouchListener(new DialogTouchListener());
+            }else {
+                dialogView.setOnTouchListener(new DialogTouchListener());
+            }
         }
 
         dialogView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 dialogView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                if (mDialogEnterTransition != null){
-                    mDialogEnterTransition.applyEnterTransition(dialogView.getMeasuredWidth(),dialogView.getMeasuredHeight(), mTransitionHelper);
+                if (mDialogEnterTransitions != null) {
+                    for (DialogEnterTransition enterTransition : mDialogEnterTransitions) {
+                        enterTransition.applyEnterTransition(dialogView.getMeasuredWidth(), dialogView.getMeasuredHeight(), mTransitionHelper);
+                    }
                 }
             }
         });
 
 
-        
         return view;
 
     }
 
+    protected View getTouchToDismissView() {
+        return null;
+    }
+
+    protected View getInterceptTouchToDismissView() {
+        return null;
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        mDialog = new Dialog(getActivity(),getTheme()){
+
+        mDialog = new Dialog(getActivity(), getTheme()) {
             @Override
             public void onBackPressed() {
                 if (onInterceptBackPressedEvent()) return;
@@ -110,11 +132,11 @@ public abstract  class BaseDialog extends DialogFragment implements IDialog{
             }
         };
 
-        if (mDialog.getWindow() != null){
+        if (mDialog.getWindow() != null) {
             mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
             mDialog.getWindow().setWindowAnimations(R.style.BaseDialogAnimation);
         }
-        
+
         return mDialog;
     }
 
@@ -124,18 +146,36 @@ public abstract  class BaseDialog extends DialogFragment implements IDialog{
         if (mUnbinder != null) {
             mUnbinder.unbind();
         }
+        if (mDialogEnterTransitions != null) {
+            mDialogEnterTransitions.clear();
+            mDialogEnterTransitions = null;
+        }
+
+        if (mDialogExitTransitions != null) {
+            mDialogExitTransitions.clear();
+            mDialogExitTransitions = null;
+        }
     }
 
+    public void dismissWithAnim() {
+        if (mDialogExitTransitions != null) {
+            for (DialogExitTransition dialogExitTransition : mDialogExitTransitions) {
+                if (mDialog.isShowing()) {
+                    dialogExitTransition.applyExitTransition(dialogView.getWidth(), dialogView.getHeight(), mTransitionHelper, new DialogDismiss(this));
+                }
+            }
+        }
+    }
+/*
 
     @Override
     public void dismiss() {
 
-        if (mDialogExitTransition != null) {
-            mDialogExitTransition.applyEnterTransition(dialogView.getWidth(), dialogView.getHeight(), mTransitionHelper,new DialogDismiss(this));
-        }else {
+       else {
             super.dismiss();
         }
     }
+*/
 
     @Override
     public void onDismiss(DialogInterface dialog) {
@@ -143,27 +183,17 @@ public abstract  class BaseDialog extends DialogFragment implements IDialog{
 
     }
 
-    /**
-     *
-     *
-     * Sets whether this dialog is canceled when touched outside the window's
-     * bounds. If setting to true, the dialog is set to be cancelable if not
-     * already set.
-     *
-     * @param cancel Whether the dialog should be canceled when touched outside
-     *            the window.
-     */
-    public void setCanceledOnTouchOutside(boolean cancel) {
-        mCanceledOnTouchOutside = cancel;
-        mDialog.setCanceledOnTouchOutside(cancel);
+
+    public void addDialogExitTransition(DialogExitTransition dialogExitTransition) {
+        if (!mDialogExitTransitions.contains(dialogExitTransition)) {
+            mDialogExitTransitions.add(dialogExitTransition);
+        }
     }
 
-    public void setDialogExitTransition(DialogExitTransition dialogExitTransition) {
-        this.mDialogExitTransition = dialogExitTransition;
-    }
-
-    public void setDialogEnterTransition(DialogEnterTransition mDialogEnterTransition) {
-        this.mDialogEnterTransition = mDialogEnterTransition;
+    public void addDialogEnterTransition(DialogEnterTransition mDialogEnterTransition) {
+        if (!mDialogEnterTransitions.contains(mDialogEnterTransition)) {
+            mDialogEnterTransitions.add(mDialogEnterTransition);
+        }
     }
 
 
@@ -172,16 +202,16 @@ public abstract  class BaseDialog extends DialogFragment implements IDialog{
         return (V) dialogView.findViewById(id);
     }
 
-    protected boolean onInterceptBackPressedEvent(){
+    protected boolean onInterceptBackPressedEvent() {
         return false;
     }
 
 
-    private class RootViewTouchListener implements View.OnTouchListener{
-        
+    private class RootViewTouchListener implements View.OnTouchListener {
+
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            switch (event.getAction()){
+            switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     dismiss();
                     break;
@@ -191,12 +221,12 @@ public abstract  class BaseDialog extends DialogFragment implements IDialog{
     }
 
 
-    private class DialogTouchListener implements View.OnTouchListener{
+    private class DialogTouchListener implements View.OnTouchListener {
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             return true;
         }
     }
-    
+
 }
