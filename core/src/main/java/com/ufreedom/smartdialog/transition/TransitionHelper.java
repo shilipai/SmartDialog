@@ -162,6 +162,22 @@ public class TransitionHelper implements ITransition, Rebound {
     }
 
     @Override
+    public void setPivotX(float x) {
+        View dialogView;
+        if ((dialogView = getDialogView()) != null) {
+            dialogView.setPivotX(x);
+        }
+    }
+
+    @Override
+    public void setPivotY(float y) {
+        View dialogView;
+        if ((dialogView = getDialogView()) != null) {
+            dialogView.setPivotY(y);
+        }
+    }
+
+    @Override
     public Spring createSpringByBouncinessAndSpeed(double bounciness, double speed) {
         return mSpringSystem.createSpring()
                 .setSpringConfig(SpringConfig.fromBouncinessAndSpeed(bounciness, speed));

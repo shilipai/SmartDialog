@@ -48,5 +48,10 @@ public interface ITransition {
     public void setDialogWidth(int width);
 
     public void setDialogWidthAndHeight(int width,int height);
-    
+
+    public void setPivotX(float x);
+
+    public void setPivotY(float y);
+
+
 }
