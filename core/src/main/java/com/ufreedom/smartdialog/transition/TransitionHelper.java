@@ -178,6 +178,14 @@ public class TransitionHelper implements ITransition, Rebound {
     }
 
     @Override
+    public void setColor(int color) {
+        View dialogView;
+        if ((dialogView = getDialogView()) != null) {
+            dialogView.setBackgroundColor(color);
+        }
+    }
+
+    @Override
     public Spring createSpringByBouncinessAndSpeed(double bounciness, double speed) {
         return mSpringSystem.createSpring()
                 .setSpringConfig(SpringConfig.fromBouncinessAndSpeed(bounciness, speed));

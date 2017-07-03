@@ -53,5 +53,6 @@ public interface ITransition {
 
     public void setPivotY(float y);
 
+    public void setColor(int color);
 
 }
