@@ -8,28 +8,27 @@ import android.animation.ValueAnimator;
 import com.ufreedom.smartdialog.DialogDismiss;
 
 /**
+ *
  * Created by UFreedom on 2017/7/2.
  */
 
-public class AlphaTransition implements DialogTransition{
+public class AlphaTransition implements DialogTransition {
 
-    private int mEnterDuration;
-    private int mExitDuration;
 
-    public AlphaTransition() {
-        mEnterDuration = 400;
-        mExitDuration = 400;
+    private TransitionModel transitionModel;
+
+    public AlphaTransition(TransitionModel transitionModel) {
+        this.transitionModel = transitionModel;
     }
 
-    public AlphaTransition(int enterDuration, int exitDuration) {
-        this.mEnterDuration = enterDuration;
-        this.mExitDuration = exitDuration;
+    private AlphaTransition() {
+
     }
 
     @Override
     public void applyExitTransition(int dialogWidth, int dialogHeight, final TransitionHelper transitionHelper, final DialogDismiss dialogDismiss) {
-        ValueAnimator alphaAnimation = ObjectAnimator.ofFloat(1.0f, 0.0f);
-        alphaAnimation.setDuration(mExitDuration);
+        ValueAnimator alphaAnimation = ObjectAnimator.ofFloat(transitionModel.startVal, transitionModel.endVal);
+        alphaAnimation.setDuration(transitionModel.duration);
         alphaAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -47,8 +46,8 @@ public class AlphaTransition implements DialogTransition{
 
     @Override
     public void applyEnterTransition(int dialogWidth, int dialogHeight, final TransitionHelper transitionHelper) {
-        ValueAnimator alphaAnimation = ObjectAnimator.ofFloat(0.0f, 1.0f);
-        alphaAnimation.setDuration(mEnterDuration);
+        ValueAnimator alphaAnimation = ObjectAnimator.ofFloat(transitionModel.startVal, transitionModel.endVal);
+        alphaAnimation.setDuration(transitionModel.duration);
         alphaAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -57,8 +56,6 @@ public class AlphaTransition implements DialogTransition{
         });
         alphaAnimation.start();
     }
-
-
 
 
 }

@@ -1,43 +1,38 @@
 package com.ufreedom.smartdialog.transition;
 
-import android.util.Log;
-
 import com.ufreedom.smartdialog.DialogDismiss;
 
 /**
- *
- * Created by UFreedom on 2017/7/2.
+ * Created by Sun Meng on 2017/7/3.
  */
 
-public class ScaleTransition implements DialogTransition {
-
+public class TranslateTransition implements DialogTransition {
 
     private TransitionModel transitionModelX;
     private TransitionModel transitionModelY;
 
-
-    private ScaleTransition() {
+    private TranslateTransition() {
 
     }
 
-    public ScaleTransition(TransitionModel transitionModelX, TransitionModel transitionModelY) {
+    public TranslateTransition(TransitionModel transitionModelX, TransitionModel transitionModelY) {
         this.transitionModelX = transitionModelX;
         this.transitionModelY = transitionModelY;
     }
 
     @Override
-    public void applyExitTransition(int dialogWidth, int dialogHeight, final TransitionHelper transitionHelper, DialogDismiss dialogDismiss) {
-        doScale(transitionHelper);
+    public void applyEnterTransition(int dialogWidth, int dialogHeight, TransitionHelper transitionHelper) {
+        doTranslate(transitionHelper);
     }
 
-    private void doScale(final TransitionHelper transitionHelper) {
+    private void doTranslate(final TransitionHelper transitionHelper) {
         if (transitionModelX != null) {
             SpringHelper.create(transitionModelX.startVal, transitionModelX.endVal)
                     .configBouncinessAndSpeed(12, 16)
                     .reboundListener(new SimpleReboundListener() {
                         @Override
                         public void onReboundUpdate(double currentValue) {
-                            transitionHelper.setScaleX((float) currentValue);
+                            transitionHelper.setRotation((float) currentValue);
                         }
                     }).start(transitionHelper);
         }
@@ -48,7 +43,7 @@ public class ScaleTransition implements DialogTransition {
                     .reboundListener(new SimpleReboundListener() {
                         @Override
                         public void onReboundUpdate(double currentValue) {
-                            transitionHelper.setScaleY((float) currentValue);
+                            transitionHelper.setRotation((float) currentValue);
                         }
                     }).start(transitionHelper);
         }
@@ -56,7 +51,9 @@ public class ScaleTransition implements DialogTransition {
     }
 
     @Override
-    public void applyEnterTransition(int dialogWidth, int dialogHeight, final TransitionHelper transitionHelper) {
-        doScale(transitionHelper);
+    public void applyExitTransition(int dialogWidth, int dialogHeight, TransitionHelper transitionHelper, DialogDismiss dialogDismiss) {
+        doTranslate(transitionHelper);
     }
+
+
 }

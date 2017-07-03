@@ -19,6 +19,7 @@ import android.view.ViewTreeObserver;
 
 import com.facebook.rebound.SpringSystem;
 import com.ufreedom.smartdialog.transition.DialogExitTransition;
+import com.ufreedom.smartdialog.transition.DialogTransition;
 import com.ufreedom.smartdialog.transition.TransitionHelper;
 import com.ufreedom.smartdialog.transition.DialogEnterTransition;
 
@@ -193,6 +194,22 @@ public abstract class BaseDialog extends DialogFragment implements IDialog {
     public void addDialogEnterTransition(DialogEnterTransition mDialogEnterTransition) {
         if (!mDialogEnterTransitions.contains(mDialogEnterTransition)) {
             mDialogEnterTransitions.add(mDialogEnterTransition);
+        }
+    }
+
+    public void addDialogExitTransitions(List<DialogTransition> dialogExitTransitions) {
+        if (dialogExitTransitions != null ) {
+            for (DialogExitTransition dialogExitTransition : dialogExitTransitions) {
+                addDialogExitTransition(dialogExitTransition);
+            }
+        }
+    }
+
+    public void addDialogEnterTransitions(List<DialogTransition> dialogEnterTransitions) {
+        if (dialogEnterTransitions != null ) {
+            for (DialogEnterTransition dialogEnterTransition : dialogEnterTransitions) {
+                addDialogEnterTransition(dialogEnterTransition);
+            }
         }
     }
 

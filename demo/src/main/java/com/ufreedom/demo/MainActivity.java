@@ -9,6 +9,7 @@ import com.ufreedom.smartdialog.BaseDialog;
 import com.ufreedom.smartdialog.DialogConfig;
 import com.ufreedom.smartdialog.transition.AlphaTransition;
 import com.ufreedom.smartdialog.transition.ScaleTransition;
+import com.ufreedom.smartdialog.transition.Transitions;
 
 import butterknife.OnClick;
 
@@ -23,16 +24,15 @@ public class MainActivity extends AppCompatActivity {
     public void showDialog(View view){
 
         MyDialog myDialog = new MyDialog();
-        myDialog.addDialogEnterTransition(new AlphaTransition());
-        myDialog.addDialogEnterTransition(new ScaleTransition());
-
-        myDialog.addDialogExitTransition(new AlphaTransition());
-        myDialog.addDialogExitTransition(new ScaleTransition());
+        myDialog.addDialogEnterTransitions(Transitions.create()
+                .withHeight(0,600)
+                .transitions()
+        );
         myDialog.showDialog(this);
 
     }
 
-    class MyDialog extends BaseDialog {
+    public static class MyDialog extends BaseDialog {
 
 
         @Override
