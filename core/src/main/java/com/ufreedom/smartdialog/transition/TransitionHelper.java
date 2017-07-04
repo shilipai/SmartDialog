@@ -9,15 +9,13 @@ import com.facebook.rebound.SpringUtil;
 
 import java.lang.ref.WeakReference;
 
-public class TransitionHelper implements ITransition, Rebound {
+public class TransitionHelper implements ITransition {
 
-    private SpringSystem mSpringSystem;
     private WeakReference<View> mContentViewWeakReference;
     private WeakReference<View> mRootViewWeakReference;
 
 
-    public TransitionHelper(SpringSystem springSystem, View dialogContentView, View rootView) {
-        mSpringSystem = springSystem;
+    public TransitionHelper(View dialogContentView, View rootView) {
         mContentViewWeakReference = new WeakReference<View>(dialogContentView);
         mRootViewWeakReference = new WeakReference<View>(rootView);
     }
@@ -183,23 +181,6 @@ public class TransitionHelper implements ITransition, Rebound {
         if ((dialogView = getDialogView()) != null) {
             dialogView.setBackgroundColor(color);
         }
-    }
-
-    @Override
-    public Spring createSpringByBouncinessAndSpeed(double bounciness, double speed) {
-        return mSpringSystem.createSpring()
-                .setSpringConfig(SpringConfig.fromBouncinessAndSpeed(bounciness, speed));
-    }
-
-    @Override
-    public Spring createSpringByTensionAndFriction(double tension, double friction) {
-        return mSpringSystem.createSpring()
-                .setSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(tension, friction));
-    }
-
-    @Override
-    public float transition(double progress, float startValue, float endValue) {
-        return (float) SpringUtil.mapValueFromRangeToRange(progress, 0, 1, startValue, endValue);
     }
 
 

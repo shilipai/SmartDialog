@@ -20,6 +20,7 @@ import android.view.ViewTreeObserver;
 import com.facebook.rebound.SpringSystem;
 import com.ufreedom.smartdialog.transition.DialogExitTransition;
 import com.ufreedom.smartdialog.transition.DialogTransition;
+import com.ufreedom.smartdialog.transition.SpringHelper;
 import com.ufreedom.smartdialog.transition.TransitionHelper;
 import com.ufreedom.smartdialog.transition.DialogEnterTransition;
 
@@ -63,6 +64,8 @@ public abstract class BaseDialog extends DialogFragment implements IDialog {
         super.onCreate(savedInstanceState);
         setStyle(R.style.DialogTheme, android.support.v4.app.DialogFragment.STYLE_NO_TITLE);
         onInitialize(savedInstanceState);
+
+        SpringHelper.init();
     }
 
     @Nullable
@@ -78,7 +81,7 @@ public abstract class BaseDialog extends DialogFragment implements IDialog {
         DialogConfig mDialogConfig = new DialogConfig(view,dialogView,mDialog);
         onInitDialog(mDialogConfig);
 
-        mTransitionHelper = new TransitionHelper(SpringSystem.create(), dialogView, view);
+        mTransitionHelper = new TransitionHelper(dialogView, view);
         mUnbinder = ButterKnife.bind(dialogView);
         onBindUi();
 
@@ -156,6 +159,8 @@ public abstract class BaseDialog extends DialogFragment implements IDialog {
             mDialogExitTransitions.clear();
             mDialogExitTransitions = null;
         }
+
+        SpringHelper.destroy();
     }
 
     public void dismissWithAnim() {
