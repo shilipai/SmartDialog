@@ -1,5 +1,7 @@
 package com.ufreedom.smartdialog.transition;
 
+import android.annotation.TargetApi;
+
 import com.facebook.rebound.SpringConfig;
 
 import java.util.ArrayList;
@@ -42,53 +44,65 @@ public class SpringTransitions {
         return this;
     }
 
-    public SpringTransitions withRotate(int start, int end) {
+    public SpringTransitions withRotate(float start, float end) {
         transitionModels.add(TransitionModel.create(start, end).transitionCode(TransitionHelper.ROTATION));
         return this;
     }
 
-    public SpringTransitions withRotate(int start, int end, SpringConfig springConfig) {
+    public SpringTransitions withRotate(float start, float end, SpringConfig springConfig) {
         transitionModels.add(TransitionModel.create(start, end).transitionCode(TransitionHelper.ROTATION).springConfig(springConfig));
         return this;
     }
 
-    public SpringTransitions withRotateX(int start, int end) {
+    public SpringTransitions withRotateX(float start, float end) {
         transitionModels.add(TransitionModel.create(start, end).transitionCode(TransitionHelper.ROTATION_X));
         return this;
     }
 
-    public SpringTransitions withRotateX(int start, int end, SpringConfig springConfig) {
+    public SpringTransitions withRotateX(float start, float end, SpringConfig springConfig) {
         transitionModels.add(TransitionModel.create(start, end).transitionCode(TransitionHelper.ROTATION_X).springConfig(springConfig));
         return this;
     }
 
-    public SpringTransitions withRotateY(int start, int end) {
+    public SpringTransitions withRotateY(float start, float end) {
         transitionModels.add(TransitionModel.create(start, end).transitionCode(TransitionHelper.ROTATION_Y));
         return this;
     }
 
-    public SpringTransitions withRotateY(int start, int end, SpringConfig springConfig) {
+    public SpringTransitions withRotateY(float start, float end, SpringConfig springConfig) {
         transitionModels.add(TransitionModel.create(start, end).transitionCode(TransitionHelper.ROTATION_Y).springConfig(springConfig));
         return this;
     }
 
-    public SpringTransitions withTranslateX(int start, int end) {
+    public SpringTransitions withTranslateX(float start, float end) {
         transitionModels.add(TransitionModel.create(start, end).transitionCode(TransitionHelper.TRANSLATION_X));
         return this;
     }
 
-    public SpringTransitions withTranslateX(int start, int end, SpringConfig springConfig) {
+    public SpringTransitions withTranslateX(float start, float end, SpringConfig springConfig) {
         transitionModels.add(TransitionModel.create(start, end).transitionCode(TransitionHelper.TRANSLATION_X).springConfig(springConfig));
         return this;
     }
 
-    public SpringTransitions withTranslateY(int start, int end) {
+    public SpringTransitions withTranslateY(float start, float end) {
         transitionModels.add(TransitionModel.create(start, end).transitionCode(TransitionHelper.TRANSLATION_Y));
         return this;
     }
 
-    public SpringTransitions withTranslateY(int start, int end, SpringConfig springConfig) {
+    public SpringTransitions withTranslateY(float start, float end, SpringConfig springConfig) {
         transitionModels.add(TransitionModel.create(start, end).transitionCode(TransitionHelper.TRANSLATION_Y).springConfig(springConfig));
+        return this;
+    }
+
+    @TargetApi(21)
+    public SpringTransitions withTranslateZ(float start, float end) {
+        transitionModels.add(TransitionModel.create(start, end).transitionCode(TransitionHelper.TRANSLATION_Z));
+        return this;
+    }
+
+    @TargetApi(21)
+    public SpringTransitions withTranslateZ(float start, float end, SpringConfig springConfig) {
+        transitionModels.add(TransitionModel.create(start, end).transitionCode(TransitionHelper.TRANSLATION_Z).springConfig(springConfig));
         return this;
     }
 
@@ -122,6 +136,38 @@ public class SpringTransitions {
         return this;
     }
 
+    public SpringTransitions withX(float startHeight, float endHeight) {
+        transitionModels.add(TransitionModel.create(startHeight, endHeight).transitionCode(TransitionHelper.X));
+        return this;
+    }
+
+    public SpringTransitions withX(float startHeight, float endHeight, SpringConfig springConfig) {
+        transitionModels.add(TransitionModel.create(startHeight, endHeight).transitionCode(TransitionHelper.X).springConfig(springConfig));
+        return this;
+    }
+
+    public SpringTransitions withY(float startHeight, float endHeight) {
+        transitionModels.add(TransitionModel.create(startHeight, endHeight).transitionCode(TransitionHelper.Y));
+        return this;
+    }
+
+    public SpringTransitions withY(float startHeight, float endHeight, SpringConfig springConfig) {
+        transitionModels.add(TransitionModel.create(startHeight, endHeight).transitionCode(TransitionHelper.Y).springConfig(springConfig));
+        return this;
+    }
+
+    @TargetApi(21)
+    public SpringTransitions withZ(float startHeight, float endHeight) {
+        transitionModels.add(TransitionModel.create(startHeight, endHeight).transitionCode(TransitionHelper.Z));
+        return this;
+    }
+
+
+    @TargetApi(21)
+    public SpringTransitions withZ(float startHeight, float endHeight, SpringConfig springConfig) {
+        transitionModels.add(TransitionModel.create(startHeight, endHeight).transitionCode(TransitionHelper.Z).springConfig(springConfig));
+        return this;
+    }
 
     public SpringDialogTransition transitions() {
         TransitionModel[] transitionModelArray = transitionModels.toArray(new TransitionModel[transitionModels.size()]);
