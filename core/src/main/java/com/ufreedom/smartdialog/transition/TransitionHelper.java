@@ -1,5 +1,6 @@
 package com.ufreedom.smartdialog.transition;
 
+import android.annotation.TargetApi;
 import android.view.View;
 
 import com.facebook.rebound.Spring;
@@ -11,23 +12,23 @@ import java.lang.ref.WeakReference;
 
 public class TransitionHelper implements ITransition {
 
-    public static final int NONE             = 0x0000;
-    public static final int TRANSLATION_X    = 0x0001;
-    public static final int TRANSLATION_Y    = 0x0002;
-    public static final int TRANSLATION_Z    = 0x0004;
-    public static final int SCALE_X          = 0x0008;
-    public static final int SCALE_Y          = 0x0010;
-    public static final int ROTATION         = 0x0020;
-    public static final int ROTATION_X       = 0x0040;
-    public static final int ROTATION_Y       = 0x0080;
-    public static final int X                = 0x0100;
-    public static final int Y                = 0x0200;
-    public static final int Z                = 0x0400;
-    public static final int ALPHA            = 0x0800;
-    public static final int WIDTH            = 0x1000;
-    public static final int HEIGHT           = 0x2000;
+    public static final int NONE = 0x0000;
+    public static final int TRANSLATION_X = 0x0001;
+    public static final int TRANSLATION_Y = 0x0002;
+    public static final int TRANSLATION_Z = 0x0004;
+    public static final int SCALE_X = 0x0008;
+    public static final int SCALE_Y = 0x0010;
+    public static final int ROTATION = 0x0020;
+    public static final int ROTATION_X = 0x0040;
+    public static final int ROTATION_Y = 0x0080;
+    public static final int X = 0x0100;
+    public static final int Y = 0x0200;
+    public static final int Z = 0x0400;
+    public static final int ALPHA = 0x0800;
+    public static final int WIDTH = 0x1000;
+    public static final int HEIGHT = 0x2000;
     public static final int WIDTH_AND_HEIGHT = 0x4000;
-  //  public static final int ALPHA          = 0x8000;
+    //  public static final int ALPHA          = 0x8000;
 
 
     private WeakReference<View> mContentViewWeakReference;
@@ -134,6 +135,15 @@ public class TransitionHelper implements ITransition {
         }
     }
 
+    @TargetApi(21)
+    @Override
+    public void setTranslationZ(float translationZ) {
+        View dialogView;
+        if ((dialogView = getDialogView()) != null) {
+            dialogView.setTranslationZ(translationZ);
+        }
+    }
+
     @Override
     public void setX(float x) {
         View dialogView;
@@ -147,6 +157,15 @@ public class TransitionHelper implements ITransition {
         View dialogView;
         if ((dialogView = getDialogView()) != null) {
             dialogView.setY(y);
+        }
+    }
+
+    @TargetApi(21)
+    @Override
+    public void setZ(float z) {
+        View dialogView;
+        if ((dialogView = getDialogView()) != null) {
+            dialogView.setZ(z);
         }
     }
 
@@ -211,6 +230,7 @@ public class TransitionHelper implements ITransition {
                 setTranslationY((float) value);
                 break;
             case TRANSLATION_Z:
+                setTranslationZ((float) value);
                 break;
             case ROTATION:
                 setRotation((float) value);
@@ -228,12 +248,13 @@ public class TransitionHelper implements ITransition {
                 setScaleY((float) value);
                 break;
             case X:
-                setTranslationX((float) value);
+                setX((float) value);
                 break;
             case Y:
-                setTranslationY((float) value);
+                setY((float) value);
                 break;
             case Z:
+                setZ((float) value);
                 break;
             case ALPHA:
                 setAlpha((float) value);
@@ -246,7 +267,7 @@ public class TransitionHelper implements ITransition {
                 break;
             case WIDTH_AND_HEIGHT:
                 int val = (int) value;
-                setDialogWidthAndHeight(val,val);
+                setDialogWidthAndHeight(val, val);
                 break;
         }
     }

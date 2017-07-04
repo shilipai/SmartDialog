@@ -18,15 +18,15 @@
 package com.ufreedom.smartdialog.transition;
 
 public interface ITransition {
-    
+
     public void setAlpha(float alpha);
-    
+
     public void setRotation(float rotation);
-    
+
     public void setRotationX(float rotationX);
 
     public void setRotationY(float rotationY);
-    
+
     public void setScaleX(float scaleX);
 
     public void setScaleY(float scaleY);
@@ -36,18 +36,22 @@ public interface ITransition {
     public void setScrollY(int scrollY);
 
     public void setTranslationX(float translationX);
-    
+
     public void setTranslationY(float translationY);
 
+    public void setTranslationZ(float translationY);
+
     public void setX(float x);
-    
+
     public void setY(float y);
-    
+
+    public void setZ(float z);
+
     public void setDialogHeight(int height);
-    
+
     public void setDialogWidth(int width);
 
-    public void setDialogWidthAndHeight(int width,int height);
+    public void setDialogWidthAndHeight(int width, int height);
 
     public void setPivotX(float x);
 
