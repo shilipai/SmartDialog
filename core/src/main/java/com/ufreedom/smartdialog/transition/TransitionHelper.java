@@ -11,6 +11,25 @@ import java.lang.ref.WeakReference;
 
 public class TransitionHelper implements ITransition {
 
+    public static final int NONE             = 0x0000;
+    public static final int TRANSLATION_X    = 0x0001;
+    public static final int TRANSLATION_Y    = 0x0002;
+    public static final int TRANSLATION_Z    = 0x0004;
+    public static final int SCALE_X          = 0x0008;
+    public static final int SCALE_Y          = 0x0010;
+    public static final int ROTATION         = 0x0020;
+    public static final int ROTATION_X       = 0x0040;
+    public static final int ROTATION_Y       = 0x0080;
+    public static final int X                = 0x0100;
+    public static final int Y                = 0x0200;
+    public static final int Z                = 0x0400;
+    public static final int ALPHA            = 0x0800;
+    public static final int WIDTH            = 0x1000;
+    public static final int HEIGHT           = 0x2000;
+    public static final int WIDTH_AND_HEIGHT = 0x4000;
+  //  public static final int ALPHA          = 0x8000;
+
+
     private WeakReference<View> mContentViewWeakReference;
     private WeakReference<View> mRootViewWeakReference;
 
@@ -183,5 +202,53 @@ public class TransitionHelper implements ITransition {
         }
     }
 
+    public void transition(int transition, double value) {
+        switch (transition) {
+            case TRANSLATION_X:
+                setTranslationX((float) value);
+                break;
+            case TRANSLATION_Y:
+                setTranslationY((float) value);
+                break;
+            case TRANSLATION_Z:
+                break;
+            case ROTATION:
+                setRotation((float) value);
+                break;
+            case ROTATION_X:
+                setRotationX((float) value);
+                break;
+            case ROTATION_Y:
+                setRotationY((float) value);
+                break;
+            case SCALE_X:
+                setScaleX((float) value);
+                break;
+            case SCALE_Y:
+                setScaleY((float) value);
+                break;
+            case X:
+                setTranslationX((float) value);
+                break;
+            case Y:
+                setTranslationY((float) value);
+                break;
+            case Z:
+                break;
+            case ALPHA:
+                setAlpha((float) value);
+                break;
+            case WIDTH:
+                setDialogWidth((int) value);
+                break;
+            case HEIGHT:
+                setDialogHeight((int) value);
+                break;
+            case WIDTH_AND_HEIGHT:
+                int val = (int) value;
+                setDialogWidthAndHeight(val,val);
+                break;
+        }
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.ufreedom.demo;
 
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,11 +8,8 @@ import android.view.View;
 
 import com.ufreedom.smartdialog.BaseDialog;
 import com.ufreedom.smartdialog.DialogConfig;
-import com.ufreedom.smartdialog.transition.AlphaTransition;
-import com.ufreedom.smartdialog.transition.ScaleTransition;
+import com.ufreedom.smartdialog.transition.SpringTransitions;
 import com.ufreedom.smartdialog.transition.Transitions;
-
-import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,10 +22,10 @@ public class MainActivity extends AppCompatActivity {
     public void showDialog(View view){
 
         MyDialog myDialog = new MyDialog();
-        myDialog.addDialogEnterTransitions(Transitions.create()
-                .withHeight(0,600)
-                .transitions()
-        );
+        myDialog.addDialogEnterTransition(SpringTransitions.create().
+                withTranslateY(0,500)
+                .transitions());
+        myDialog.addDialogEnterTransition(Transitions.crateColor(Color.RED,Color.BLUE,1000));
         myDialog.showDialog(this);
 
     }

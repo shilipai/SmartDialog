@@ -3,6 +3,7 @@ package com.ufreedom.smartdialog.transition;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.view.View;
 
 import com.ufreedom.smartdialog.DialogDismiss;
 
@@ -28,7 +29,7 @@ public class ColorTransition implements DialogTransition{
     }
 
     private void doColorChange(final TransitionHelper transitionHelper) {
-        ValueAnimator colorAnimation = ObjectAnimator.ofFloat(transitionModel.startVal, transitionModel.endVal);
+        ValueAnimator colorAnimation = ObjectAnimator.ofInt((int)transitionModel.startVal, (int)transitionModel.endVal);
         colorAnimation.setDuration(transitionModel.duration);
         colorAnimation.setEvaluator(new ArgbEvaluator());
         colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {

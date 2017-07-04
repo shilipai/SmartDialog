@@ -1,7 +1,5 @@
 package com.ufreedom.smartdialog.transition;
 
-import android.animation.Animator;
-
 /**
  *
  * Created by UFreedom on 2017/7/3.
