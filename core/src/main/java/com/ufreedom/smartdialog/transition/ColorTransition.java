@@ -53,4 +53,13 @@ public class ColorTransition implements DialogTransition{
     }
 
 
+    @Override
+    public void onInitialize() {
+
+    }
+
+    @Override
+    public void onDestroy() {
+
+    }
 }

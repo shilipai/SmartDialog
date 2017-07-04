@@ -13,7 +13,7 @@ public interface IDialog {
 
     public void onInitDialog(DialogConfig dialogConfig);
 
-    public void onBindUi();
+    public void onBindUI();
 
     public int getDialogContentLayoutResourceId();
 

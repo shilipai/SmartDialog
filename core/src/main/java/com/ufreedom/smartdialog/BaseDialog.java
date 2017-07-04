@@ -10,14 +10,12 @@ import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
-import com.facebook.rebound.SpringSystem;
 import com.ufreedom.smartdialog.transition.DialogExitTransition;
 import com.ufreedom.smartdialog.transition.DialogTransition;
 import com.ufreedom.smartdialog.transition.SpringHelper;
@@ -26,6 +24,7 @@ import com.ufreedom.smartdialog.transition.DialogEnterTransition;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -43,7 +42,6 @@ public abstract class BaseDialog extends DialogFragment implements IDialog {
     private List<DialogEnterTransition> mDialogEnterTransitions = new ArrayList<>(6);
     private List<DialogExitTransition> mDialogExitTransitions = new ArrayList<>(6);
     private Unbinder mUnbinder;
-
 
     public void showDialog(Activity activity) {
         FragmentManager fragmentManager = activity.getFragmentManager();
@@ -63,9 +61,28 @@ public abstract class BaseDialog extends DialogFragment implements IDialog {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(R.style.DialogTheme, android.support.v4.app.DialogFragment.STYLE_NO_TITLE);
+        SpringHelper.init();
         onInitialize(savedInstanceState);
 
-        SpringHelper.init();
+        initEnterTransition();
+        initExitTransition();
+
+    }
+
+    private void initExitTransition() {
+        for (DialogExitTransition mDialogExitTransition : mDialogExitTransitions) {
+            if (mDialogExitTransition != null) {
+                mDialogExitTransition.onInitialize();
+            }
+        }
+    }
+
+    private void initEnterTransition() {
+        for (DialogEnterTransition mDialogEnterTransition : mDialogEnterTransitions) {
+            if (mDialogEnterTransition != null) {
+                mDialogEnterTransition.onInitialize();
+            }
+        }
     }
 
     @Nullable
@@ -83,7 +100,7 @@ public abstract class BaseDialog extends DialogFragment implements IDialog {
 
         mTransitionHelper = new TransitionHelper(dialogView, view);
         mUnbinder = ButterKnife.bind(dialogView);
-        onBindUi();
+        onBindUI();
 
         if (mDialogConfig.isCanceledOnTouchOutside()) {
             if (getTouchToDismissView() != null) {
@@ -151,11 +168,21 @@ public abstract class BaseDialog extends DialogFragment implements IDialog {
             mUnbinder.unbind();
         }
         if (mDialogEnterTransitions != null) {
+            for (DialogEnterTransition mDialogEnterTransition : mDialogEnterTransitions) {
+                if (mDialogEnterTransition != null) {
+                    mDialogEnterTransition.onDestroy();
+                }
+            }
             mDialogEnterTransitions.clear();
             mDialogEnterTransitions = null;
         }
 
         if (mDialogExitTransitions != null) {
+            for (DialogExitTransition mDialogExitTransition : mDialogExitTransitions) {
+                if (mDialogExitTransition != null) {
+                    mDialogExitTransition.onDestroy();
+                }
+            }
             mDialogExitTransitions.clear();
             mDialogExitTransitions = null;
         }

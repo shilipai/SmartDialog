@@ -7,7 +7,7 @@ import com.ufreedom.smartdialog.DialogDismiss;
  * Date : 2017 二月 09
  */
 
-public interface DialogEnterTransition {
+public interface DialogEnterTransition extends TransitionLifecycle{
     
     public void applyEnterTransition(int dialogWidth, int dialogHeight, TransitionHelper transitionHelper);
     

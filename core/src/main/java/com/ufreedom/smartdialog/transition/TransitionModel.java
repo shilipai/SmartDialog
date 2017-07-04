@@ -14,6 +14,7 @@ public class TransitionModel {
     public float endVal;
     public SpringConfig springConfig;
     public int transitionCode;
+    public long delay;
 
     public TransitionModel( float startVal, float endVal,int duration) {
         this.duration = duration;
@@ -42,6 +43,11 @@ public class TransitionModel {
 
     public TransitionModel transitionCode(int transitionCode) {
         this.transitionCode = transitionCode;
+        return this;
+    }
+
+    public TransitionModel delay(long delay) {
+        this.delay = delay;
         return this;
     }
 }
