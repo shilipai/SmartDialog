@@ -128,13 +128,4 @@ public class SpringTransitions {
         return SpringDialogTransition.create(transitionModelArray);
     }
 
-    public static SpringTransition create(final int transition) {
-        return new SpringTransition() {
-            @Override
-            public void doTransition(TransitionHelper transitionHelper, double currentValue) {
-                transitionHelper.transition(transition, currentValue);
-            }
-        };
-    }
-
 }

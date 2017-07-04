@@ -33,7 +33,7 @@ public class SpringDialogTransition implements DialogTransition {
                         .reboundListener(new SimpleReboundListener() {
                             @Override
                             public void onReboundUpdate(double currentValue) {
-                                SpringTransitions.create(transitionModel.transitionCode).doTransition(transitionHelper, currentValue);
+                                transitionHelper.transition(transitionModel.transitionCode, currentValue);
                             }
                         }).start();
             }
