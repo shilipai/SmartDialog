@@ -23,9 +23,12 @@ public class MainActivity extends AppCompatActivity {
 
         MyDialog myDialog = new MyDialog();
         myDialog.addDialogEnterTransition(SpringTransitions.create().
-                withTranslateY(0,500)
+                withTranslateY(-400,0)
+                .delay(100)
+                .withRotate(10,0)
                 .transitions());
-        myDialog.addDialogEnterTransition(Transitions.crateColor(Color.RED,Color.BLUE,1000));
+        myDialog.addDialogExitTransition(Transitions.crateBackgroundAlpha(1,0,300));
+        myDialog.addDialogExitTransition(SpringTransitions.create().withRotate(0,10).withTranslateY(0,1000).transitions());
         myDialog.showDialog(this);
 
     }
@@ -44,16 +47,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onBindUi() {
+        public void onBindUI() {
 
-            View view = findViewById(R.id.image_one);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dismissWithAnim();
-                }
-            });
         }
+
+
 
         @Override
         public int getDialogContentLayoutResourceId() {

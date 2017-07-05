@@ -262,7 +262,11 @@ public abstract class BaseDialog extends DialogFragment implements IDialog {
         public boolean onTouch(View v, MotionEvent event) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    dismiss();
+                    if (mDialogExitTransitions != null && mDialogExitTransitions.size() > 0) {
+                        dismissWithAnim();
+                    }else {
+                        dismiss();
+                    }
                     break;
             }
             return false;
