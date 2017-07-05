@@ -33,6 +33,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void showDialogDismissUpward(View view){
+
+        MyDialog myDialog = new MyDialog();
+        myDialog.addDialogEnterTransition(SpringTransitions.create().
+                withTranslateY(-400,0)
+                .delay(100)
+                .withRotate(10,0)
+                .transitions());
+        myDialog.addDialogExitTransition(Transitions.crateBackgroundAlpha(1,0,300));
+        myDialog.addDialogExitTransition(SpringTransitions.create().withRotate(0,720).withTranslateY(0,-1000).transitions());
+        myDialog.showDialog(this);
+
+    }
+
     public static class MyDialog extends BaseDialog {
 
 

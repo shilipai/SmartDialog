@@ -13,7 +13,12 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:onClick="showDialog"
+        android:text="Click Me!" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:onClick="showDialogDismissUpward"
         android:text="Click Me!" />
 </RelativeLayout>
